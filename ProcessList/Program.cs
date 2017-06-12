@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
+using System.Linq;
 
 namespace ProcessList
 {
@@ -8,28 +7,49 @@ namespace ProcessList
     {
         static void Main(string[] args)
         {
-            Process[] processes = Process.GetProcesses();
-            string[] processNames = new string[processes.Length];
-            int i = 0;
-            foreach (Process p in processes)
+            Func obj = new Func();
+
+
+            //设定计时器
+            System.Timers.Timer timer = new System.Timers.Timer(obj.GetTimerInterval());
+            timer.Enabled = true;
+            timer.AutoReset = true;
+
+            //判断有无游戏运行，有则继续判断有无矿工运行，有则结束；
+            //无则重启矿工；
+            
+            timer.Elapsed += new System.Timers.ElapsedEventHandler(RunMiner);
+
+            void RunMiner(object source, System.Timers.ElapsedEventArgs e)
             {
-                if (i<=processes.Length)
+                Vars.isRunningGames = false;
+                obj.IsRunningGame();
+                Console.WriteLine("Vars.isRunningGames: " + Vars.isRunningGames);
+                Console.WriteLine("Is Miner Running? " + obj.IsHaveMiner());
+                if (Vars.isRunningGames)
                 {
-                    processNames[i] = p.ProcessName;
-                    i++;
+                    if (obj.IsHaveMiner())
+                    {
+                        obj.KillMiner();
+                    }
 
                 }
+
                 else
                 {
-                    break;
+                    if (!obj.IsHaveMiner())
+                    {
+                        obj.StartMiner();
+                    }
                 }
-            }
 
-            foreach(string s in processNames)
-            {
-                Console.WriteLine(s);
+                Console.WriteLine(DateTime.Now);
+
             }
+            
             Console.ReadKey();
         }
+        
+
     }
 }

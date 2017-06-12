@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("ProcessList")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Help Game Running Tool")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("XinoAssassin.com")]
 [assembly: AssemblyProduct("ProcessList")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
