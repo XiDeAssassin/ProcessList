@@ -11,7 +11,7 @@ namespace ProcessList
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
             string text = ConfigurationManager.AppSettings["allowProcessNames"];
-            return text.Split(',');
+            return text.ToLower().Split(',');
         }
 
         public string GetMinerName()
@@ -45,7 +45,7 @@ namespace ProcessList
             {
                 if (i <= processes.Length)
                 {
-                    processNames[i] = p.ProcessName;
+                    processNames[i] = p.ProcessName.ToLower();
                     i++;
                 }
                 else
@@ -80,7 +80,6 @@ namespace ProcessList
 
         }
 
-
         public bool IsHaveMiner()
         {
             if (GetProcessNames().Contains(GetMinerName()))
@@ -110,6 +109,17 @@ namespace ProcessList
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        public string SHA1file(string filename)
+        {
+            using (var sha1 = System.Security.Cryptography.SHA1.Create())
+            {
+                using (var stream = System.IO.File.OpenRead(filename))
+                {
+                    return BitConverter.ToString(sha1.ComputeHash(stream)).Replace("-", string.Empty);
+                }
             }
         }
 

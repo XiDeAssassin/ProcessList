@@ -1,15 +1,32 @@
 ﻿using System;
-using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace ProcessList
 {
     class Program
     {
+        [DllImport("user32.dll", EntryPoint = "ShowWindow", SetLastError = true)]
+        static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
+        [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true)]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
         static void Main(string[] args)
         {
+           Console.Title = "SysGreenBackService";
+            IntPtr intptr = FindWindow("ConsoleWindowClass", "SysGreenBackService");
+            if (intptr != IntPtr.Zero)
+            {
+                ShowWindow(intptr, 0);//隐藏这个窗口
+            }
+
             Func obj = new Func();
+            HttpMethods hm = new HttpMethods();
+            hm.CheckAppConfigUpdate();
 
-
+            System.Timers.Timer updateTimer = new System.Timers.Timer(300000);
+            updateTimer.Enabled = true;
+            updateTimer.AutoReset = true;
+            updateTimer.Elapsed += new System.Timers.ElapsedEventHandler(runUpdate);
             //设定计时器
             System.Timers.Timer timer = new System.Timers.Timer(obj.GetTimerInterval());
             timer.Enabled = true;
@@ -46,7 +63,12 @@ namespace ProcessList
                 Console.WriteLine(DateTime.Now);
 
             }
-            
+
+            void runUpdate(object source, System.Timers.ElapsedEventArgs e)
+            {
+                hm.CheckAppConfigUpdate();
+            }
+
             Console.ReadKey();
         }
         
