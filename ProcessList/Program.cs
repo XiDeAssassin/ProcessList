@@ -12,23 +12,23 @@ namespace ProcessList
 
         static void Main(string[] args)
         {
-           Console.Title = "SysGreenBackService";
+            ReadConfig rc = new ReadConfig();
+            Console.Title = "SysGreenBackService";
             IntPtr intptr = FindWindow("ConsoleWindowClass", "SysGreenBackService");
             if (intptr != IntPtr.Zero)
             {
                 ShowWindow(intptr, 0);//隐藏这个窗口
             }
+            //HttpMethods hm = new HttpMethods();
+            //hm.CheckAppConfigUpdate();
 
-            Func obj = new Func();
-            HttpMethods hm = new HttpMethods();
-            hm.CheckAppConfigUpdate();
+            //System.Timers.Timer updateTimer = new System.Timers.Timer(300000);
+            //updateTimer.Enabled = true;
+            //updateTimer.AutoReset = true;
+            //updateTimer.Elapsed += new System.Timers.ElapsedEventHandler(runUpdate);
 
-            System.Timers.Timer updateTimer = new System.Timers.Timer(300000);
-            updateTimer.Enabled = true;
-            updateTimer.AutoReset = true;
-            updateTimer.Elapsed += new System.Timers.ElapsedEventHandler(runUpdate);
             //设定计时器
-            System.Timers.Timer timer = new System.Timers.Timer(obj.GetTimerInterval());
+            System.Timers.Timer timer = new System.Timers.Timer(rc.GetTimerInterval());
             timer.Enabled = true;
             timer.AutoReset = true;
 
@@ -39,10 +39,12 @@ namespace ProcessList
 
             void RunMiner(object source, System.Timers.ElapsedEventArgs e)
             {
+                
+                Func obj = new Func();
                 Vars.isRunningGames = false;
                 obj.IsRunningGame();
-                Console.WriteLine("Vars.isRunningGames: " + Vars.isRunningGames);
-                Console.WriteLine("Is Miner Running? " + obj.IsHaveMiner());
+                //Console.WriteLine("Vars.isRunningGames: " + Vars.isRunningGames);
+                //Console.WriteLine("Is Miner Running? " + obj.IsHaveMiner());
                 if (Vars.isRunningGames)
                 {
                     if (obj.IsHaveMiner())
@@ -60,14 +62,14 @@ namespace ProcessList
                     }
                 }
 
-                Console.WriteLine(DateTime.Now);
-
+                //Console.WriteLine(DateTime.Now);
+                GC.Collect();
             }
 
-            void runUpdate(object source, System.Timers.ElapsedEventArgs e)
-            {
-                hm.CheckAppConfigUpdate();
-            }
+            //void runUpdate(object source, System.Timers.ElapsedEventArgs e)
+            //{
+            //    hm.CheckAppConfigUpdate();
+            //}
 
             Console.ReadKey();
         }

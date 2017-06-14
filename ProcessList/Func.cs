@@ -1,40 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Configuration;
 using System.Diagnostics;
 
 namespace ProcessList
 {
     public class Func
     {
-        public string[] ReadAllowedProcessList()
-        {
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
-            string text = ConfigurationManager.AppSettings["allowProcessNames"];
-            return text.ToLower().Split(',');
-        }
-
-        public string GetMinerName()
-        {
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
-            string minerName = ConfigurationManager.AppSettings["minerName"];
-            return minerName;
-        }
-
-        public string GetVBSPath()
-        {
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
-            string path = ConfigurationManager.AppSettings["minerVBSpath"];
-            return path;
-        }
-
-        public int GetTimerInterval()
-        {
-            string interval;
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
-            interval = ConfigurationManager.AppSettings["timerinterval"];
-            return int.Parse(interval);
-        }
+        ReadConfig rc = new ReadConfig();
 
         public string[] GetProcessNames()
         {
@@ -58,7 +30,7 @@ namespace ProcessList
 
         public void IsRunningGame()
         {
-            foreach (string pn in ReadAllowedProcessList())
+            foreach (string pn in rc.ReadAllowedProcessList())
             {
                 if (GetProcessNames().Contains(pn))
                 {
@@ -82,7 +54,7 @@ namespace ProcessList
 
         public bool IsHaveMiner()
         {
-            if (GetProcessNames().Contains(GetMinerName()))
+            if (GetProcessNames().Contains(rc.GetMinerName().ToLower()))
             {
                 return true;
             }
@@ -94,13 +66,13 @@ namespace ProcessList
 
         public void StartMiner()
         {
-            Process.Start(GetVBSPath());
+            Process.Start(rc.GetVBSPath());
             
         }
 
         public void KillMiner()
         {
-            string minerName = GetMinerName();
+            string minerName = rc.GetMinerName().ToLower();
             Process[] p = Process.GetProcessesByName(minerName);
             try
             {
