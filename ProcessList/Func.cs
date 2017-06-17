@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace ProcessList
 {
-    public class Func
+    public class Func : IFunc
     {
         ReadConfig rc = new ReadConfig();
 

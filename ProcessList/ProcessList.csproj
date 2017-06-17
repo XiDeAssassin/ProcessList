@@ -69,6 +69,8 @@
   <ItemGroup>
     <Compile Include="Func.cs" />
     <Compile Include="HttpMethods.cs" />
+    <Compile Include="IFunc.cs" />
+    <Compile Include="IReadConfig.cs" />
     <Compile Include="ReadConfig.cs" />
     <Compile Include="Vars.cs" />
     <Compile Include="Program.cs" />
