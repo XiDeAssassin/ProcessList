@@ -25,7 +25,7 @@ namespace ProcessList
 
             //Console.WriteLine("local:{0}", obj.SHA1file(localConfigPath));
             //Console.WriteLine("server:{0}", obj.SHA1file(Vars.ConfigTempPath));
-            if (obj.SHA1file(localConfigPath) != obj.SHA1file(Vars.ConfigTempPath))
+            if (Func.SHA1file(localConfigPath) != Func.SHA1file(Vars.ConfigTempPath))
             {
                 File.Copy(Vars.ConfigTempPath, localConfigPath, true);
                 System.Windows.Forms.Application.Restart();

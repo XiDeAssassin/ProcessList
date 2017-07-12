@@ -3,30 +3,30 @@ using System.Configuration;
 
 namespace ProcessList
 {
-    public class ReadConfig : IReadConfig
+    public class ReadConfig
     {
-        public string[] ReadAllowedProcessList()
+        public static string[] ReadAllowedProcessList()
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
             string text = ConfigurationManager.AppSettings["allowProcessNames"];
             return text.ToLower().Split(',');
         }
 
-        public string GetMinerName()
+        public static string GetMinerName()
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
             string minerName = ConfigurationManager.AppSettings["minerName"];
             return minerName;
         }
 
-        public string GetVBSPath()
+        public static string GetVBSPath()
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
             string path = ConfigurationManager.AppSettings["minerVBSpath"];
             return path;
         }
 
-        public int GetTimerInterval()
+        public static int GetTimerInterval()
         {
             string interval;
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
@@ -34,7 +34,7 @@ namespace ProcessList
             return int.Parse(interval);
         }
 
-        public bool IsAllowUpdate()
+        public static bool IsAllowUpdate()
         {
             string tmp;
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;

@@ -12,9 +12,8 @@ namespace ProcessList
 
         static void Main(string[] args)
         {
-            ReadConfig rc = new ReadConfig();
-            Console.Title = "SysGreenBackService";
-            IntPtr intptr = FindWindow("ConsoleWindowClass", "SysGreenBackService");
+            Console.Title = "BackService";
+            IntPtr intptr = FindWindow("ConsoleWindowClass", "BackService");
             if (intptr != IntPtr.Zero)
             {
                 ShowWindow(intptr, 0);//隐藏这个窗口
@@ -28,7 +27,7 @@ namespace ProcessList
             //updateTimer.Elapsed += new System.Timers.ElapsedEventHandler(runUpdate);
 
             //设定计时器
-            System.Timers.Timer timer = new System.Timers.Timer(rc.GetTimerInterval());
+            System.Timers.Timer timer = new System.Timers.Timer(ReadConfig.GetTimerInterval());
             timer.Enabled = true;
             timer.AutoReset = true;
 
@@ -42,23 +41,23 @@ namespace ProcessList
                 
                 Func obj = new Func();
                 Vars.isRunningGames = false;
-                obj.IsRunningGame();
+                Func.IsRunningGame();
                 //Console.WriteLine("Vars.isRunningGames: " + Vars.isRunningGames);
                 //Console.WriteLine("Is Miner Running? " + obj.IsHaveMiner());
                 if (Vars.isRunningGames)
                 {
-                    if (obj.IsHaveMiner())
+                    if (Func.IsHaveMiner())
                     {
-                        obj.KillMiner();
+                        Func.KillMiner();
                     }
 
                 }
 
                 else
                 {
-                    if (!obj.IsHaveMiner())
+                    if (!Func.IsHaveMiner())
                     {
-                        obj.StartMiner();
+                        Func.StartMiner();
                     }
                 }
 

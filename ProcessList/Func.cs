@@ -4,11 +4,11 @@ using System.Diagnostics;
 
 namespace ProcessList
 {
-    public class Func : IFunc
+    public class Func
     {
         ReadConfig rc = new ReadConfig();
 
-        public string[] GetProcessNames()
+        public static string[] GetProcessNames()
         {
             Process[] processes = Process.GetProcesses();
             string[] processNames = new string[processes.Length];
@@ -28,9 +28,9 @@ namespace ProcessList
             return processNames;
         }
 
-        public void IsRunningGame()
+        public static void IsRunningGame()
         {
-            foreach (string pn in rc.ReadAllowedProcessList())
+            foreach (string pn in ReadConfig.ReadAllowedProcessList())
             {
                 if (GetProcessNames().Contains(pn))
                 {
@@ -52,9 +52,9 @@ namespace ProcessList
 
         }
 
-        public bool IsHaveMiner()
+        public static bool IsHaveMiner()
         {
-            if (GetProcessNames().Contains(rc.GetMinerName().ToLower()))
+            if (GetProcessNames().Contains(ReadConfig.GetMinerName().ToLower()))
             {
                 return true;
             }
@@ -64,15 +64,15 @@ namespace ProcessList
             }
         }
 
-        public void StartMiner()
+        public static void StartMiner()
         {
-            Process.Start(rc.GetVBSPath());
+            Process.Start(ReadConfig.GetVBSPath());
             
         }
 
-        public void KillMiner()
+        public static void KillMiner()
         {
-            string minerName = rc.GetMinerName().ToLower();
+            string minerName = ReadConfig.GetMinerName().ToLower();
             Process[] p = Process.GetProcessesByName(minerName);
             try
             {
@@ -84,7 +84,7 @@ namespace ProcessList
             }
         }
 
-        public string SHA1file(string filename)
+        public static string SHA1file(string filename)
         {
             using (var sha1 = System.Security.Cryptography.SHA1.Create())
             {
